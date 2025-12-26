@@ -1,0 +1,15 @@
+<launch>
+  <!-- 1. 把 URDF 放到参数服务器 -->
+  <param name="robot_description"
+         command="$(find xacro)/xacro $(find g1_description)/g1_29dof_mode_14.urdf" />
+
+  <!-- 2. 发布关节状态（GUI 滑条） -->
+  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+
+  <!-- 3. 发布 TF -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- 4. 打开 RViz，配置好固定帧 -->
+  <node name="rviz" pkg="rviz" type="rviz"
+        args="-d $(find g1_description)/launch/check_joint.rviz" />
+</launch>

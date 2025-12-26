@@ -1,0 +1,1189 @@
+<sdf version='1.7'>
+  <world name='default'>
+    <!-- 原有环境设置保持不变 -->
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_bitmask>65535</collide_bitmask>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    
+    <!-- 聚光灯照亮缝隙 -->
+    <light name="spot_light" type="spot">
+      <pose>1.5 0 3.0 0 -0.6 0</pose>
+      <diffuse>1.0 0.9 0.8 1</diffuse>
+      <specular>0.5 0.4 0.3 1</specular>
+      <attenuation>
+        <range>15</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-1 0 -0.8</direction>
+      <spot>
+        <inner_angle>0.4</inner_angle>
+        <outer_angle>0.8</outer_angle>
+        <falloff>1.0</falloff>
+      </spot>
+      <cast_shadows>true</cast_shadows>
+    </light>
+    
+    <!-- 原有room模型 -->
+    <model name='room'>
+      <link name='Wall_0'>
+        <pose>-7.425 -0.6475 0 0 0 -1.5708</pose>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+        <visual name='Wall_0_Visual'>
+          <pose>0 0 1.25 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>5.5 0.15 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+            <ambient>1 1 1 1</ambient>
+            <shader type='pixel'/>
+          </material>
+          <meta>
+            <layer>0</layer>
+          </meta>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='Wall_0_Collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 1.25 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>5.5 0.15 2.5</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <link name='Wall_1'>
+        <pose>0 -3.3225 0 0 -0 0</pose>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+        <visual name='Wall_1_Visual'>
+          <pose>0 0 1.25 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>15 0.15 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+            <ambient>1 1 1 1</ambient>
+            <shader type='pixel'/>
+          </material>
+          <meta>
+            <layer>0</layer>
+          </meta>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='Wall_1_Collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 1.25 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>15 0.15 2.5</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <link name='Wall_2'>
+        <pose>7.425 -0.6475 0 0 -0 1.5708</pose>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+        <visual name='Wall_2_Visual'>
+          <pose>0 0 1.25 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>5.5 0.15 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+            <ambient>1 1 1 1</ambient>
+            <shader type='pixel'/>
+          </material>
+          <meta>
+            <layer>0</layer>
+          </meta>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='Wall_2_Collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 1.25 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>5.5 0.15 2.5</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <link name='Wall_3'>
+        <pose>0 2.0275 0 0 -0 3.14159</pose>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+        <visual name='Wall_3_Visual'>
+          <pose>0 0 1.25 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>15 0.15 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Bricks</name>
+            </script>
+            <ambient>0.435294 0.796078 0.67451 1</ambient>
+            <shader type='pixel'/>
+          </material>
+          <meta>
+            <layer>0</layer>
+          </meta>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='Wall_3_Collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 1.25 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>15 0.15 2.5</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <link name='link_0'>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.166667</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.166667</iyy>
+            <iyz>0</iyz>
+            <izz>0.166667</izz>
+          </inertia>
+        </inertial>
+        <pose>4.34128 -1.56708 0.5 0 -0 0</pose>
+        <visual name='visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1 1 1</size>
+            </box>
+          </geometry>
+          <material>
+            <lighting>1</lighting>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+            <shader type='pixel'/>
+          </material>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1 1 1</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <static>1</static>
+      <allow_auto_disable>1</allow_auto_disable>
+      <pose>1.885 -3.3975 0 0 -0 0</pose>
+    </model>
+    
+  
+
+    <!-- 金属板件堆 40 层，单层厚 5 cm，长 1.8 m -->
+    <model name="sheet_stack">
+      <static>true</static>
+      <pose>3.0 0 0.01 0 0 0</pose>
+
+      <!-- 第 1 层 -->
+      <link name="sheet_1">
+        <pose>0 0 0.0025 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box><size>1.8 0.4 0.05</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>1.8 0.4 0.05</size></box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.9 1</ambient>
+            <diffuse>0.6 0.6 0.7 1</diffuse>
+            <specular>0.3 0.3 0.4 0.5</specular>
+          </material>
+        </visual>
+      </link>
+
+      <!-- 第 2 层 -->
+      <link name="sheet_2">
+        <pose>0 0 0.0525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 3 层 -->
+      <link name="sheet_3">
+        <pose>0 0 0.1025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 4 层 -->
+      <link name="sheet_4">
+        <pose>0 0 0.1525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 5 层 -->
+      <link name="sheet_5">
+        <pose>0 0 0.2025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 6 层 -->
+      <link name="sheet_6">
+        <pose>0 0 0.2525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 7 层 -->
+      <link name="sheet_7">
+        <pose>0 0 0.3025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 8 层 -->
+      <link name="sheet_8">
+        <pose>0 0 0.3525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 9 层 -->
+      <link name="sheet_9">
+        <pose>0 0 0.4025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 10 层 -->
+      <link name="sheet_10">
+        <pose>0 0 0.4525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 11 层 -->
+      <link name="sheet_11">
+        <pose>0 0 0.5025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 12 层 -->
+      <link name="sheet_12">
+        <pose>0 0 0.5525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 13 层 -->
+      <link name="sheet_13">
+        <pose>0 0 0.6025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 14 层 -->
+      <link name="sheet_14">
+        <pose>0 0 0.6525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 15 层 -->
+      <link name="sheet_15">
+        <pose>0 0 0.7025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 16 层 -->
+      <link name="sheet_16">
+        <pose>0 0 0.7525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 17 层 -->
+      <link name="sheet_17">
+        <pose>0 0 0.8025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 18 层 -->
+      <link name="sheet_18">
+        <pose>0 0 0.8525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 19 层 -->
+      <link name="sheet_19">
+        <pose>0 0 0.9025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 20 层 -->
+      <link name="sheet_20">
+        <pose>0 0 0.9525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 21 层 -->
+      <link name="sheet_21">
+        <pose>0 0 1.0025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 22 层 -->
+      <link name="sheet_22">
+        <pose>0 0 1.0525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 23 层 -->
+      <link name="sheet_23">
+        <pose>0 0 1.1025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 24 层 -->
+      <link name="sheet_24">
+        <pose>0 0 1.1525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 25 层 -->
+      <link name="sheet_25">
+        <pose>0 0 1.2025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 26 层 -->
+      <link name="sheet_26">
+        <pose>0 0 1.2525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 27 层 -->
+      <link name="sheet_27">
+        <pose>0 0 1.3025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 28 层 -->
+      <link name="sheet_28">
+        <pose>0 0 1.3525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 29 层 -->
+      <link name="sheet_29">
+        <pose>0 0 1.4025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 30 层 -->
+      <link name="sheet_30">
+        <pose>0 0 1.4525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 31 层 -->
+      <link name="sheet_31">
+        <pose>0 0 1.5025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 32 层 -->
+      <link name="sheet_32">
+        <pose>0 0 1.5525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 33 层 -->
+      <link name="sheet_33">
+        <pose>0 0 1.6025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 34 层 -->
+      <link name="sheet_34">
+        <pose>0 0 1.6525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 35 层 -->
+      <link name="sheet_35">
+        <pose>0 0 1.7025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 36 层 -->
+      <link name="sheet_36">
+        <pose>0 0 1.7525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 37 层 -->
+      <link name="sheet_37">
+        <pose>0 0 1.8025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 38 层 -->
+      <link name="sheet_38">
+        <pose>0 0 1.8525 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 39 层 -->
+      <link name="sheet_39">
+        <pose>0 0 1.9025 0 0 0</pose>
+        <collision name="collision">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.8 0.4 0.05</size></box></geometry>
+          <material><ambient>0.8 0.8 0.9 1</ambient><diffuse>0.6 0.6 0.7 1</diffuse><specular>0.3 0.3 0.4 0.5</specular></material>
+        </visual>
+      </link>
+
+      <!-- 第 40 层（高亮） -->
+      <link name="sheet_40">
+        <pose>0 0 1.9525 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box><size>1.8 0.4 0.05</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>1.8 0.4 0.05</size></box>
+          </geometry>
+          <material>
+            <ambient>0.9 0.9 1.0 1</ambient>
+            <diffuse>0.7 0.7 0.8 1</diffuse>
+            <specular>0.5 0.5 0.6 0.7</specular>
+          </material>
+        </visual>
+      </link>
+
+    </model>
+
+    <!-- 添加一个机械臂模型示例 -->
+    <model name="simple_arm">
+      <pose>1.0 0 0.5 0 0 0</pose>
+      
+      <!-- 底座 -->
+      <link name="base">
+        <pose>0 0 0.1 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.2</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>0.05</radius>
+              <length>0.2</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.3 0.3 0.3 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      
+      <!-- 第一段手臂 -->
+      <link name="arm1">
+        <pose>0 0 0.25 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.3</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.3</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.4 0.6 1</ambient>
+            <diffuse>0.3 0.5 0.7 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      
+      <!-- 末端执行器（模拟吸盘） -->
+      <link name="end_effector">
+        <pose>0 0 0.45 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>0.03</radius>
+              <length>0.05</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.2 0.2 1</ambient>
+            <diffuse>0.9 0.3 0.3 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>-2.79229 18.3912 9.87917 0 0.438797 -1.396</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+    
+    <!-- 状态信息（可选） -->
+    <state world_name='default'>
+      <sim_time>81 191000000</sim_time>
+      <real_time>81 331019379</real_time>
+      <wall_time>1766190867 451016075</wall_time>
+      <iterations>81191</iterations>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='room'>
+        <pose>1.885 -3.3975 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='Wall_0'>
+          <pose>-5.54 -4.045 0 0 0 -1.5708</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='Wall_1'>
+          <pose>1.885 -6.72 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='Wall_2'>
+          <pose>9.31 -4.045 0 0 -0 1.5708</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='Wall_3'>
+          <pose>1.885 -1.37 0 0 -0 3.14159</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='link_0'>
+          <pose>6.22628 -4.96458 0.5 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+    
+    
+  </world>
+</sdf>

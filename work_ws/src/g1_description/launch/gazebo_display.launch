@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- 参数设置 -->
+  <arg name="world_name" default="$(find g1_description)/worlds/factory_room.world"/>
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="-0.6"/>
+  <!-- 关键：URDF里已抬到站立高度，这里不再重复抬 -->
+  <arg name="z" default="1.2"/>
+  <arg name="roll" default="0"/>
+  <arg name="pitch" default="0"/>
+  <arg name="yaw" default="-1.5"/>
+  
+  <!-- 设置Gazebo模型路径，包含你的room模型 -->
+  <env name="GAZEBO_MODEL_PATH" value="$(find g1_description)/worlds:$(optenv GAZEBO_MODEL_PATH)"/>
+  
+  <!-- 启动Gazebo，加载factory_room世界 -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="/home/lkktest/test_ws/work_ws/src/g1_description/world/factory_room.world"/>
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="verbose" value="true"/>
+  </include>
+  
+  <!-- 加载机器人模型 -->
+  <param name="robot_description" textfile="$(find g1_description)/g1_29dof_mode_14.urdf" />
+  
+  <!-- 在Gazebo中生成机器人 -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-param robot_description -urdf -model base_link 
+              -x $(arg x) -y $(arg y) -z 0.78
+              -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) "
+        output="screen" respawn="false"/>
+  
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+        respawn="false" output="screen">
+    <param name="publish_frequency" type="double" value="30.0"/>
+    <param name="tf_prefix" value="" />
+  </node>
+  
+  <!-- 关节状态发布器 -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="false"/>
+    <param name="rate" value="30"/>
+  </node>
+  
+
+  <!-- 启动相机节点 -->
+  <node pkg="uvc_camera" type="uvc_camera_node" name="right_hand_camera">
+    <param name="device" value="/dev/video0" />
+    <param name="width" value="640" />
+    <param name="height" value="480" />
+    <param name="fps" value="30" />
+    <!-- 只发布RGB格式 -->
+    <param name="frame_id" value="right_hand_camera" />
+    <remap from="image_raw" to="image_raw" />
+  </node>
+
+  <!-- 禁用深度压缩插件 -->
+  <node pkg="dynamic_reconfigure" type="dynparam" name="disable_depth_comp"
+        args="set /right_hand_camera/image_raw/compressedDepth disabled true">
+  </node>
+
+
+  
+</launch>

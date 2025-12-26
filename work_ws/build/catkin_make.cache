@@ -1,0 +1,2 @@
+g1_description
+-DCATKIN_DEVEL_PREFIX=/home/lkktest/test_ws/work_ws/devel -DCMAKE_INSTALL_PREFIX=/home/lkktest/test_ws/work_ws/install -G Unix Makefiles
